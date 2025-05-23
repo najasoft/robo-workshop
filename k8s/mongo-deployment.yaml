@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: robo-mongo
+spec:
+  serviceName: robo-mongo
+  replicas: 1
+  selector:
+    matchLabels:
+      app: robo-mongo
+  template:
+    metadata:
+      labels:
+        app: robo-mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:6
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: robo-mongo-secret
+                  key: username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: robo-mongo-secret
+                  key: password
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-storage
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi

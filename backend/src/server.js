@@ -1,11 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+ 
 
 // Connexion à MongoDB
 mongoose.connect(
-  `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@robo-mongo-service:27017/${process.env.MONGO_DB}?authSource=admin`
+  `mongodb://robouser:robopass@robo-mongo-service:27017/roboDB?authSource=admin`
 );
+// Connexion à MongoDB
+//mongoose.connect(
+//  `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@robo-mongo-service:27017/${process.env.MONGO_DB}?authSource=admin`
+//);
 
 // Modèle MongoDB
 const ProjectSchema = new mongoose.Schema({ name: String, description: String });
