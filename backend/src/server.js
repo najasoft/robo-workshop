@@ -3,14 +3,10 @@ const mongoose = require("mongoose");
 const app = express();
 app.use(express.json()); // Pour parser le JSON des requêtes
 
-// Connexion à MongoDB
+//Connexion à MongoDB
 mongoose.connect(
-  `mongodb://robouser:robopass@robo-mongo-service:27017/roboDB?authSource=admin`
+  `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@robo-mongo-service:27017/${process.env.MONGO_DB}?authSource=admin`
 );
-// Connexion à MongoDB
-//mongoose.connect(
-//  `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@robo-mongo-service:27017/${process.env.MONGO_DB}?authSource=admin`
-//);
 
 // Schéma et Modèle MongoDB pour les Projets de Robotique
 const RobotProjectSchema = new mongoose.Schema({
