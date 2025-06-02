@@ -5,7 +5,7 @@ app.use(express.json()); // Pour parser le JSON des requêtes
 
 //Connexion à MongoDB
 mongoose.connect(
-  `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@robo-mongo-service:27017/${process.env.MONGO_DB}?authSource=admin`
+  `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@localhost:27017/${process.env.MONGO_DB}?authSource=admin`
 );
 
 // Schéma et Modèle MongoDB pour les Projets de Robotique
