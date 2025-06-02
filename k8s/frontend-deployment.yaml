@@ -18,7 +18,7 @@ spec:
       - name: frontend
         image: najasoft/robo-frontend:latest
         ports:
-        - containerPort: 3000
+        - containerPort: 80
         env:
         - name: REACT_APP_API_URL
-          value: "http://backend-service:5000"  # Adjust the backend service URL as needed
+          value: "http://robo-backend-service:5000"  # Adjust the backend service URL as needed
