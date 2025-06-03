@@ -1,15 +1,15 @@
 const express = require("express");
-const cors = require('cors'); 
+const cors = require('cors');
 const mongoose = require("mongoose");
 const app = express();
 app.use(express.json()); // Pour parser le JSON des requêtes
- app.use(cors({
-          origin: 'http://localhost:3000' // Autorise les requêtes depuis votre frontend
-        }));
+app.use(cors({
+  origin: '*' // Autorise les requêtes depuis votre frontend
+}));
 
 //Connexion à MongoDB
 mongoose.connect(
-  `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@localhost:27017/${process.env.MONGO_DB}?authSource=admin`
+  `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}:27017/${process.env.MONGO_DB}?authSource=admin`
 );
 
 // Schéma et Modèle MongoDB pour les Projets de Robotique
@@ -36,7 +36,7 @@ const RobotProject = mongoose.model("RobotProject", RobotProjectSchema);
 app.get("/api/robot-projects", async (req, res) => {
   try {
     const projects = await RobotProject.find();
- res.status(200).json(projects); // Use 200 for success
+    res.status(200).json(projects); // Use 200 for success
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

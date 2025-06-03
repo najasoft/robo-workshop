@@ -13,7 +13,7 @@ function App() {
   });
 
   const fetchProjects = () => {
-    fetch('http://robo-backend-service::5000/api/robot-projects')
+    fetch(`${process.env.REACT_APP_API_URL}/api/robot-projects`)
       .then(res => res.json())
       .then(data => setProjects(data));
   };
@@ -47,7 +47,7 @@ function App() {
   };
 
   const handleCreateProject = () => {
-    fetch('http://robo-backend-service::5000/api/robot-projects', {
+    fetch(`${process.env.REACT_APP_API_URL}/api/robot-projects`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ function App() {
       .then(() => {
         fetchProjects(); // Refresh the project list
         handleClose();
-        setNewProject({ projectName: '', description: '', status: 'En Cours', components: [] }); // Reset form
+        setNewProject({ projectName: '', description: '', status: 'Planning', hardwareComponents: [] }); // Reset form
       });
   };
 

@@ -1,9 +1,11 @@
 # Robo Workshop
 
 ## Overview
+
 Robo Workshop is a full-stack application designed to demonstrate the integration of a backend service with a frontend interface, utilizing MongoDB as the database and Kubernetes for orchestration.
 
 ## Project Structure
+
 ```
 robo-workshop
 ├── backend
@@ -32,6 +34,7 @@ robo-workshop
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (version X.X.X)
 - Docker
 - Kubernetes (Minikube or any other cluster)
@@ -39,12 +42,14 @@ robo-workshop
 ### Installation
 
 1. Clone the repository:
+
    ```
    git clone <repository-url>
    cd robo-workshop
    ```
 
 2. Navigate to the backend directory and install dependencies:
+
    ```
    cd backend
    npm install
@@ -59,6 +64,7 @@ robo-workshop
 ### Running the Application
 
 #### Backend
+
 1. Start the backend server:
    ```
    cd backend
@@ -66,6 +72,7 @@ robo-workshop
    ```
 
 #### Frontend
+
 1. Start the frontend application:
    ```
    cd frontend
@@ -73,32 +80,39 @@ robo-workshop
    ```
 
 ### Docker
+
 To build and run the Docker containers for both backend and frontend, use the following commands:
 
 #### Backend
+
 ```
 cd backend
-docker build -t backend-image .
-docker run -p 5000:5000 backend-image
+docker build -t najasoft/robo-backend:latest .
+docker push najasoft/robo-backend:latest
 ```
 
 #### Frontend
+
 ```
 cd frontend
-docker build -t frontend-image .
-docker run -p 3000:3000 frontend-image
+docker build -t najasoft/robo-frontend:latest .
+docker push najasoft/robo-frontend:latest
 ```
 
 ### Kubernetes Deployment
+
 To deploy the application on a Kubernetes cluster, apply the configurations in the `k8s` directory:
+
 ```
-kubectl apply -f k8s/
+   kubectl apply -f k8s/
 ```
 
 ## License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
+
 - [Express](https://expressjs.com/) for the backend framework.
 - [React](https://reactjs.org/) for the frontend framework.
 - [MongoDB](https://www.mongodb.com/) for the database solution.

@@ -6,8 +6,8 @@ COPY . .
 RUN npm run build
 
 FROM node:23.11-alpine
-WORKDIR /app
-COPY --from=build /app/build ./build
+WORKDIR /srv
+COPY --from=build /app/build ./
 RUN npm install -g serve
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["serve", "-s", ".", "-l", "3000"]
