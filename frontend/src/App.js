@@ -8,12 +8,12 @@ function App() {
   const [newProject, setNewProject] = useState({
     projectName: '',
     description: '',
-    status: 'En Cours', // Default status
-    components: [] // Array to hold components
+    status: 'Planning', // Default status
+    hardwareComponents: [] // Array to hold components
   });
 
   const fetchProjects = () => {
-    fetch('http://robo-backend-service:3000/api/projects')
+    fetch('http://robo-backend-service::5000/api/robot-projects')
       .then(res => res.json())
       .then(data => setProjects(data));
   };
@@ -36,30 +36,30 @@ function App() {
   };
 
   const handleAddComponent = () => {
-    setNewProject({ ...newProject, components: [...newProject.components, { name: '', quantity: 1 }] });
+    setNewProject({ ...newProject, hardwareComponents: [...newProject.hardwareComponents, { componentName: '', quantity: 1 }] });
   };
 
   const handleComponentInputChange = (index, e) => {
     const { name, value } = e.target;
-    const updatedComponents = [...newProject.components];
-    updatedComponents[index][name] = value;
-    setNewProject({ ...newProject, components: updatedComponents });
+    const updatedComponents = [...newProject.hardwareComponents];
+    updatedComponents[index][name] = name === "quantity" ? Number(value) : value;
+    setNewProject({ ...newProject, hardwareComponents: updatedComponents });
   };
 
   const handleCreateProject = () => {
-    fetch('http://robo-backend-service:3000/api/projects', {
+    fetch('http://robo-backend-service::5000/api/robot-projects', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(newProject),
     })
-    .then(res => res.json())
-    .then(project => {
-      setProjects([...projects, project]);
-      handleClose();
-      setNewProject({ projectName: '', description: '', status: 'En Cours', components: [] }); // Reset form
-    });
+      .then(res => res.json())
+      .then(() => {
+        fetchProjects(); // Refresh the project list
+        handleClose();
+        setNewProject({ projectName: '', description: '', status: 'En Cours', components: [] }); // Reset form
+      });
   };
 
   return (
@@ -88,8 +88,8 @@ function App() {
                   Composants:
                 </Typography>
                 <ul>
-                  {project.components && project.components.map((component, index) => (
-                    <li key={index}>{component.name} - Quantité: {component.quantity}</li>
+                  {project.hardwareComponents && project.hardwareComponents.map((component, index) => (
+                    <li key={index}>{component.componentName} - Quantité: {component.quantity}</li>
                   ))}
                 </ul>
               </CardContent>
@@ -106,10 +106,10 @@ function App() {
           <Typography variant="h6" component="div" style={{ marginTop: '20px' }}>
             Composants:
           </Typography>
-          {newProject.components.map((component, index) => (
+          {newProject.hardwareComponents.map((component, index) => (
             <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-              <TextField margin="dense" name="name" label={`Nom du Composant ${index + 1}`} type="text" variant="standard" value={component.name} onChange={(e) => handleComponentInputChange(index, e)} />
-              <TextField margin="dense" name="quantity" label="Quantité" type="number" variant="standard" value={component.quantity} onChange={(e) => handleComponentInputChange(index, e)} inputProps={{ min: 1 }} />
+              <TextField margin="dense" name="componentName" label={`Nom du Composant ${index + 1}`} type="text" variant="standard" value={component.componentName} onChange={(e) => handleComponentInputChange(index, e)} />
+              <TextField margin="dense" name="quantity" label="Quantité" type="number" variant="standard" value={component.quantity} onChange={(e) => handleComponentInputChange(index, e)} slotProps={{ input: { min: 1 } }} />
             </div>
           ))}
           <Button onClick={handleAddComponent} startIcon={<AddIcon />}>Ajouter un Composant</Button>
