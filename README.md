@@ -36,7 +36,7 @@ robo-workshop
 
 - Node.js 24
 - Docker
-- Kubernetes (Docker Desktop, Minikube or any other cluster)
+- Docker Desktop with Kubernetes enabled (kubeadm cluster)
 
 ### Installation
 
@@ -104,14 +104,7 @@ To deploy the application on a Kubernetes cluster, apply the configurations in t
    kubectl apply -f k8s/
 ```
 
-The deployments use the locally built images (`imagePullPolicy: IfNotPresent`). With Docker Desktop (kubeadm cluster), the images built above are directly available to the cluster. With Minikube, load them first:
-
-```
-minikube image load robo-backend:1.0
-minikube image load robo-frontend:1.0
-```
-
-The frontend is then available on the NodePort 31000: http://localhost:31000 with Docker Desktop, or `minikube service robo-frontend-service` with Minikube.
+The deployments use the locally built images (`imagePullPolicy: IfNotPresent`), which are directly available to the Docker Desktop cluster. The frontend is then available on the NodePort 31000: http://localhost:31000.
 
 ## Acknowledgments
 
