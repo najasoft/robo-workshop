@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: robo-mongo
 spec:
-  serviceName: robo-mongo
+  serviceName: robo-mongo-service
   replicas: 1
   selector:
     matchLabels:
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: mongo
-          image: mongo:6
+          image: mongo:8
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:

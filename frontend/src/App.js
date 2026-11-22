@@ -13,7 +13,7 @@ function App() {
   });
 
   const fetchProjects = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/robot-projects`)
+    fetch("/api/robot-projects")
       .then(res => res.json())
       .then(data => setProjects(data));
   };
@@ -47,7 +47,7 @@ function App() {
   };
 
   const handleCreateProject = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/robot-projects`, {
+    fetch("/api/robot-projects", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

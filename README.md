@@ -10,19 +10,18 @@ Robo Workshop is a full-stack application designed to demonstrate the integratio
 robo-workshop
 ├── backend
 │   ├── src
-│   │   ├── server.js        # Main entry point for the backend application
-│   │   └── db.js           # Database connection and interactions
+│   │   └── server.js        # Main entry point for the backend application
 │   ├── package.json         # Backend application configuration
 │   └── Dockerfile           # Docker instructions for backend
 ├── frontend
 │   ├── src
 │   │   └── App.js           # Main component of the frontend application
 │   ├── package.json         # Frontend application configuration
+│   ├── nginx.conf           # Nginx configuration (static files and /api proxy)
 │   └── Dockerfile           # Docker instructions for frontend
 ├── k8s
 │   ├── mongo-secret.yaml    # Kubernetes secret for MongoDB
-│   ├── mongo-pvc.yaml       # PersistentVolumeClaim for MongoDB
-│   ├── mongo-deployment.yaml # Deployment configuration for MongoDB
+│   ├── mongo-statefulset.yaml # StatefulSet (with its volume) for MongoDB
 │   ├── mongo-service.yaml    # Service configuration for MongoDB
 │   ├── backend-deployment.yaml # Deployment configuration for backend
 │   ├── backend-service.yaml   # Service configuration for backend
@@ -35,9 +34,9 @@ robo-workshop
 
 ### Prerequisites
 
-- Node.js (version X.X.X)
+- Node.js 24
 - Docker
-- Kubernetes (Minikube or any other cluster)
+- Kubernetes (Docker Desktop, Minikube or any other cluster)
 
 ### Installation
 
@@ -87,16 +86,14 @@ To build and run the Docker containers for both backend and frontend, use the fo
 
 ```
 cd backend
-docker build -t najasoft/robo-backend:latest .
-docker push najasoft/robo-backend:latest
+docker build -t robo-backend:1.0 .
 ```
 
 #### Frontend
 
 ```
 cd frontend
-docker build -t najasoft/robo-frontend:latest .
-docker push najasoft/robo-frontend:latest
+docker build -t robo-frontend:1.0 .
 ```
 
 ### Kubernetes Deployment
@@ -107,9 +104,14 @@ To deploy the application on a Kubernetes cluster, apply the configurations in t
    kubectl apply -f k8s/
 ```
 
-## License
+The deployments use the locally built images (`imagePullPolicy: IfNotPresent`). With Docker Desktop (kubeadm cluster), the images built above are directly available to the cluster. With Minikube, load them first:
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```
+minikube image load robo-backend:1.0
+minikube image load robo-frontend:1.0
+```
+
+The frontend is then available on the NodePort 31000: http://localhost:31000 with Docker Desktop, or `minikube service robo-frontend-service` with Minikube.
 
 ## Acknowledgments
 

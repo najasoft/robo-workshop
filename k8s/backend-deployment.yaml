@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: backend
-          image: najasoft/robo-backend:latest
+          image: robo-backend:1.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000
           env:
